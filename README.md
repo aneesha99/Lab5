@@ -8,4 +8,4 @@ Github Pages: [https://aneesha99.github.io/Lab5/](https://aneesha99.github.io/La
 
 ## Part 2:
 
-LINK TO YOUR PART 2 REPOSITORY
+[https://github.com/aneesha99/github-actions-for-ci/issues/7](https://github.com/aneesha99/github-actions-for-ci/issues/7)
