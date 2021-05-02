@@ -4,7 +4,7 @@
 Aneesha Ramaswamy and Emma Yuan
 
 ## Part 1:
-[https://aneesha99.github.io/Lab5/] (https://aneesha99.github.io/Lab5/)
+Github Pages: [https://aneesha99.github.io/Lab5/](https://aneesha99.github.io/Lab5/)
 
 ## Part 2:
 
