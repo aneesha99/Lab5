@@ -1,11 +1,10 @@
 # CSE110 SP21 Lab 5
 
 ## Author(s):
-- YOUR NAME
+Aneesha Ramaswamy and Emma Yuan
 
 ## Part 1:
-
-LINK TO YOUR PUBLISHED SITE
+[https://aneesha99.github.io/Lab5/] (https://aneesha99.github.io/Lab5/)
 
 ## Part 2:
 
