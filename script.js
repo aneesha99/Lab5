@@ -51,6 +51,7 @@ clearButton.addEventListener('click', () => {
     formTextUp.value = '';
     formTextDown.value = '';
     // Toggle relevant buttons
+    submitButton.disabled = false;
     readText.disabled = true;
     clearButton.disabled = true;
 });
@@ -67,6 +68,7 @@ form.addEventListener('submit', (event) => {
     context.strokeText(formTextUp.value, canvas.width / 2.8, 50);
     context.fillText(formTextDown.value, canvas.width / 2.8, 380);
     context.strokeText(formTextDown.value, canvas.width / 2.8, 380);
+    submitButton.disabled = true;
     readText.disabled = false;
     clearButton.disabled = false;
 });
