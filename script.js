@@ -14,6 +14,8 @@ const formTextDown = document.getElementById('text-bottom');
 var synth = window.speechSynthesis;
 var voiceSelect = document.getElementById('voice-selection');
 var inputTxt = document.querySelectorAll("[type='text']");
+var volumeRange = document.querySelector("[type='range']");
+var volumeIcon = document.querySelector("[src = 'icons/volume-level-3.svg']");
 //var concatenatedText = inputTxt[0].value + " " + inputTxt[1].value;
 /* var pitch = document.querySelector('#pitch');
 var pitchValue = document.querySelector('.pitch-value');
@@ -80,56 +82,74 @@ readText.addEventListener('click', (event) => {
 /**
  * Function to speak meme generated text
  */
-function speak(concatenatedText){
-  if (synth.speaking) {
-      console.error('speechSynthesis.speaking');
-      return;
-  }
-  if (concatenatedText.value !== '') {
-    var utterThis = new SpeechSynthesisUtterance(concatenatedText.value);
-    utterThis.onend = function (event) {
-        console.log('SpeechSynthesisUtterance.onend');
-  }
-  utterThis.onerror = function (event) {
-      console.error('SpeechSynthesisUtterance.onerror');
-  }
-  var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-  for(let i = 0; i < voices.length ; i++) {
-    if(voices[i].name === selectedOption) {
-      utterThis.voice = voices[i];
-      break;
+function speak(concatenatedText) {
+    if (synth.speaking) {
+        console.error('speechSynthesis.speaking');
+        return;
     }
-  }
-  synth.speak(utterThis);
+    if (concatenatedText.value !== '') {
+        var utterThis = new SpeechSynthesisUtterance(concatenatedText);
+        utterThis.onend = function(event) {
+            console.log('SpeechSynthesisUtterance.onend');
+        }
+        utterThis.onerror = function(event) {
+            console.error('SpeechSynthesisUtterance.onerror');
+        }
+        var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+        for (let i = 0; i < voices.length; i++) {
+            if (voices[i].name === selectedOption) {
+                utterThis.voice = voices[i];
+                break;
+            }
+        }
+        utterThis.volume = volumeRange.value / 100;
+        synth.speak(utterThis);
+    }
 }
-}
+
+/**
+ * Function to change the volume icons depending on the volume ranges
+ */
+volumeRange.addEventListener('input', () => {
+    var vol = volumeRange.value;
+    if (vol == 0) {
+        volumeIcon.src = "icons/volume-level-0.svg";
+    } else if (vol <= 33) {
+        volumeIcon.src = "icons/volume-level-1.svg";
+    } else if (vol <= 66) {
+        volumeIcon.src = "icons/volume-level-2.svg";
+    } else if (vol <= 100) {
+        volumeIcon.src = "icons/volume-level-3.svg";
+    }
+});
 
 /**
  * Function to populate the drop down selector of different voices to read
  * meme text
  */
 function populateVoiceList() {
-  voices = synth.getVoices().sort(function (a, b) {
-    const aname = a.name.toUpperCase(), bname = b.name.toUpperCase();
-    if ( aname < bname ) return -1;
-    else if ( aname == bname ) return 0;
-    else return +1;
-  });
-  var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
-  voiceSelect.innerHTML = '';
-  for(let i = 0; i < voices.length ; i++) {
-    var option = document.createElement('option');
-    option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
-    
-    if(voices[i].default) {
-      option.textContent += ' -- DEFAULT';
-    }
+    voices = synth.getVoices().sort(function(a, b) {
+        const aname = a.name.toUpperCase(),
+            bname = b.name.toUpperCase();
+        if (aname < bname) return -1;
+        else if (aname == bname) return 0;
+        else return +1;
+    });
+    var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
+    voiceSelect.innerHTML = '';
+    for (let i = 0; i < voices.length; i++) {
+        var option = document.createElement('option');
+        option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
 
-    option.setAttribute('data-lang', voices[i].lang);
-    option.setAttribute('data-name', voices[i].name);
-    voiceSelect.appendChild(option);
-  }
-  voiceSelect.selectedIndex = selectedIndex;
+        if (voices[i].default) {
+            option.textContent += ' -- DEFAULT';
+        }
+
+        option.setAttribute('data-lang', voices[i].lang);
+        option.setAttribute('data-name', voices[i].name);
+        voiceSelect.appendChild(option);
+    }
+    voiceSelect.selectedIndex = selectedIndex;
 }
 populateVoiceList();
 if (speechSynthesis.onvoiceschanged !== undefined) {
